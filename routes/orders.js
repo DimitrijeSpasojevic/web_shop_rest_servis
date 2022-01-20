@@ -1,5 +1,5 @@
 const express = require('express');
-const { sequelize, Orders,Users,Products } = require('/skript jezici projekat/models');
+const { sequelize, Orders,Users,Products } = require('../models');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const Joi = require('joi');

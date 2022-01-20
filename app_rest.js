@@ -84,7 +84,7 @@ app.use('/admin', products);
 app.use('/admin', categories);
 app.use('/admin', orders);
 
-app.listen({ port: 8080 }, async () => {
+app.listen({ port: process.env.PORT || 8080 }, async () => {
     await sequelize.authenticate();
     console.log(`pokrenuta na portu 8080 rest servis`)
 });

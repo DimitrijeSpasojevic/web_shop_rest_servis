@@ -9,7 +9,12 @@ route_users.use(express.json());
 route_users.use(express.urlencoded({ extended: true }));
 
 
+route_users.get('/users', (req, res) => {
 
+    Users.findAll()
+        .then( rows => res.json(rows) )
+        .catch( err => res.status(500).json(err) );
+});
 
 function authTokenHeader(req, res, next) {
    
@@ -17,7 +22,7 @@ function authTokenHeader(req, res, next) {
    
     const token = authHeader && authHeader.split(' ')[1];
    
-    if (token == null) return res.status(401).json({ msg: "Korisnik nema token" });
+    if (token == null) return res.status(401).json({ msg: "Korisnik nema token " });
   
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     
@@ -30,13 +35,6 @@ function authTokenHeader(req, res, next) {
 }
 
 route_users.use(authTokenHeader);
-
-route_users.get('/users', (req, res) => {
-
-    Users.findAll()
-        .then( rows => res.json(rows) )
-        .catch( err => res.status(500).json(err) );
-});
 
 
 route_users.post('/users', (req, res) => {

@@ -14,27 +14,6 @@ route_categories.get('/categories', (req, res) => {
         .catch( err => res.status(500).json(err) );
 });
 
-
-function authTokenHeader(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    
-    const token = authHeader && authHeader.split(' ')[1];
-    
-    if (token == null) return res.status(401).json({ msg: "Korisnik nema token iz product.jsa" });
-  
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    
-        if (err) return res.status(403).json({ msg: "Korisnikov token nije dobar iz product.jsa" });
-    
-        req.user = user;
-    
-        next();
-    });
-}
-
-
-route_categories.use(authTokenHeader);
-
 route_categories.post('/categories', (req, res) => {
     
     const sema = Joi.object().keys({
@@ -60,6 +39,28 @@ route_categories.post('/categories', (req, res) => {
     });
 
 });
+
+
+
+function authTokenHeader(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    
+    const token = authHeader && authHeader.split(' ')[1];
+    
+    if (token == null) return res.status(401).json({ msg: "Korisnik nema token iz kategorije.jsa" });
+  
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    
+        if (err) return res.status(403).json({ msg: "Korisnikov token nije dobar iz kotegorrije.jsa" });
+    
+        req.user = user;
+    
+        next();
+    });
+}
+
+
+route_categories.use(authTokenHeader);
 
 
 route_categories.put('/categories', (req, res) => {

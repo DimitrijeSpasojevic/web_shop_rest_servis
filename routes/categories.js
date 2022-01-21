@@ -9,7 +9,7 @@ route_categories.use(express.urlencoded({ extended: true }));
 
 
 route_categories.get('/categories', (req, res) => {
-    Categories.findAll({ include: categoryId })
+    Categories.findAll()
         .then( rows => res.json(rows) )
         .catch( err => res.status(500).json(err) );
 });

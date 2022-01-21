@@ -59,13 +59,13 @@ route_products.post('/products', (req, res) => {
             console.log(obj);
             Users.findOne({ where : { id: req.user.userId} })
             .then( usr => {
-                if(usr.role == 1){
-                    Products.create(obj)
-                        .then( row => res.json(row) )
-                        .catch( err => res.status(500).json(err) ); 
-                }else{
-                    res.status(403).json({msg: `Korisnik ${usr.first_name} nije autorizavan za operaciju`});
-                }
+                
+                Products.create(obj)
+                    .then( row => res.json(row) )
+                    .catch( err => res.status(500).json(err) ); 
+            
+                res.status(403).json({msg: `Korisnik ${usr.first_name} nije autorizavan za operaciju`});
+               
             })
             .catch( err => res.status(500).json({msg: `Greska u bazi nije pronadjen korisnik koji zeli da izvrsi operaciju`}) ); 
         }
